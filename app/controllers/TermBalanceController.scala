@@ -3,11 +3,11 @@ package controllers
 import models.{Balance, TermBalanceResponse}
 import services.TermBalanceService
 import com.rallyhealth.weepickle.v1.WeePickle.FromScala
+import com.rallyhealth.weejson.v1.jackson.ToPrettyJson
 import play.api.mvc.{AbstractController, Action}
 import play.api.mvc.ControllerComponents
 
 import scala.concurrent.{ExecutionContext, Future}
-import com.rallyhealth.weejson.v1.jackson.ToPrettyJson
 
 class TermBalanceController(
   termBalanceService: TermBalanceService,
