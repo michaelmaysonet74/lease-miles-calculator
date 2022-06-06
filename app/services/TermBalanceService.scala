@@ -8,7 +8,7 @@ trait TermBalanceService {
 
   def getBalance(currentMiles: Int): Future[Balance]
 
-  def getLeaseInfo: Future[LeaseInfo]
+  def getLeaseInfo(): Future[LeaseInfo]
 
 }
 
@@ -32,7 +32,7 @@ class TermBalanceServiceImpl(
       )
     )
 
-  override def getLeaseInfo: Future[LeaseInfo] =
+  override def getLeaseInfo(): Future[LeaseInfo] =
     Future.successful(
       LeaseInfo(
         month = dateService.getCurrentMonth(),

@@ -4,9 +4,11 @@ import modules.TermBalanceModule
 import com.softwaremill.macwire.wire
 import play.api.ApplicationLoader
 import play.api.ApplicationLoader.Context
-import play.api.BuiltInComponentsFromContext
+import play.api.{BuiltInComponents, BuiltInComponentsFromContext}
+import play.api.mvc.ControllerComponents
 import play.filters.HttpFiltersComponents
 import play.api.routing.Router
+import router.Routes
 
 import scala.concurrent.ExecutionContext
 
