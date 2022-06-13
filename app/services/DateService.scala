@@ -27,7 +27,7 @@ class DateServiceImpl extends DateService {
 
   override def getToday(): Today = Today(
     date = LocalDate.now().format(DateTimeFormatter.ofPattern("M/d/yyyy")),
-    time = LocalTime.now().format(DateTimeFormatter.ofPattern("h:m:ss a"))
+    time = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm:ss a"))
   )
 
   private def getLeaseStartDate(): Option[LocalDate] =
