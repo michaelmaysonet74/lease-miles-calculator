@@ -2,7 +2,7 @@ package services
 
 import models.Today
 
-import java.time.{LocalDate, LocalTime}
+import java.time.{LocalDate, ZonedDateTime, ZoneId}
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
@@ -21,17 +21,19 @@ class DateServiceImpl extends DateService {
   override def getCurrentMonth(): Int =
     getLeaseStartDate()
       .map { startDate =>
-        ChronoUnit.MONTHS.between(startDate, LocalDate.now()).toInt + 1
+        ChronoUnit.MONTHS.between(startDate, getNow()).toInt + 1
       }
       .getOrElse(0)
 
   override def getToday(): Today = Today(
-    date = LocalDate.now().format(DateTimeFormatter.ofPattern("M/d/yyyy")),
-    time = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm:ss a"))
+    date = getNow().format(DateTimeFormatter.ofPattern("M/d/yyyy")),
+    time = getNow().format(DateTimeFormatter.ofPattern("h:mm:ss a"))
   )
 
   private def getLeaseStartDate(): Option[LocalDate] =
     maybeTermStartDate.map(LocalDate.parse(_, dateFormatter))
+
+  private def getNow() = ZonedDateTime.now(ZoneId.of(localTimeZone))
 
 }
 
@@ -40,6 +42,7 @@ object DateServiceImpl {
   import scala.sys.env
 
   private val maybeTermStartDate = env.get("TERM_START_DATE")
+  private val localTimeZone = env.get("LOCAL_TIME_ZONE").getOrElse("America/New_York")
   private val dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
 }
