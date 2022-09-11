@@ -35,9 +35,13 @@ class TermBalanceServiceImpl(
   override def getLeaseInfo(): Future[LeaseInfo] =
     Future.successful(
       LeaseInfo(
-        month = dateService.getCurrentMonth(),
+        year = dateService.getCurrentYear(),
+        month = processCurrentMoth(dateService.getCurrentMonth()),
         today = dateService.getToday()
       )
     )
+
+  private def processCurrentMoth(currentMonth: Int): Int =
+    if (currentMonth % 13 > 0) currentMonth else (currentMonth % 13) + 1
 
 }
