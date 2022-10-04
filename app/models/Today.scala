@@ -1,6 +1,6 @@
 package models
 
-import com.rallyhealth.weepickle.v1.WeePickle.{macroFromTo, FromTo}
+import play.api.libs.json.{Json, OWrites}
 
 final case class Today(
   date: String,
@@ -8,7 +8,5 @@ final case class Today(
 )
 
 object Today {
-
-  implicit val todayFromTo: FromTo[Today] = macroFromTo[Today]
-
+  implicit val encoder: OWrites[Today] = Json.writes[Today]
 }

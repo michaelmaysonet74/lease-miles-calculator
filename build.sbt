@@ -8,12 +8,11 @@ lazy val server = (project in file("."))
   .settings(
     name := """lease-miles-calculator""",
     organization := "com.michaelmaysonet74",
-    version := "1.0.0",
+    version := "1.0.1",
     scalaVersion := "2.13.8",
     playDefaultPort := 8090,
     libraryDependencies ++= Seq(
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
-      "com.rallyhealth" %% "weepickle-v1" % "1.7.2",
       "com.softwaremill.macwire" %% "macros" % macwireVersion % Provided,
       "com.softwaremill.macwire" %% "util" % macwireVersion
     )

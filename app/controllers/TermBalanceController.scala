@@ -1,13 +1,11 @@
 package controllers
 
-import models.{Balance, TermBalanceResponse}
+import models.TermBalanceResponse
 import services.TermBalanceService
-import com.rallyhealth.weepickle.v1.WeePickle.FromScala
-import com.rallyhealth.weejson.v1.jackson.ToPrettyJson
-import play.api.mvc.{AbstractController, Action}
-import play.api.mvc.ControllerComponents
+import play.api.libs.json.Json
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class TermBalanceController(
   termBalanceService: TermBalanceService,
@@ -16,21 +14,21 @@ class TermBalanceController(
   ec: ExecutionContext
 ) extends AbstractController(cc) {
 
-  def getTermBalance(currentMiles: Int) = Action.async {
+  def getTermBalance(currentMiles: Int): Action[AnyContent] = Action.async {
     val eventualBalance = termBalanceService.getBalance(currentMiles)
-    val eventualLeaseInfo = termBalanceService.getLeaseInfo()
+    val eventualLeaseInfo = termBalanceService.getLeaseInfo
 
     for {
       balance <- eventualBalance
       leaseInfo <- eventualLeaseInfo
     } yield Ok(
-      FromScala(
+      Json.toJson(
         TermBalanceResponse(
           balance,
           leaseInfo
         )
-      ).transform(ToPrettyJson.string)
-    ).as("application/json")
+      )
+    )
   }
 
 }

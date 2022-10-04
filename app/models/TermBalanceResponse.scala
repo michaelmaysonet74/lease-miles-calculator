@@ -1,6 +1,6 @@
 package models
 
-import com.rallyhealth.weepickle.v1.WeePickle.{macroFromTo, FromTo}
+import play.api.libs.json.{Json, OWrites}
 
 final case class TermBalanceResponse(
   balance: Balance,
@@ -8,8 +8,5 @@ final case class TermBalanceResponse(
 )
 
 object TermBalanceResponse {
-
-  implicit val termBalanceResponseFromTo: FromTo[TermBalanceResponse] =
-    macroFromTo[TermBalanceResponse]
-
+  implicit val encoder: OWrites[TermBalanceResponse] = Json.writes[TermBalanceResponse]
 }

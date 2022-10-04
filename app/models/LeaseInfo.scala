@@ -1,9 +1,7 @@
 package models
 
-import com.rallyhealth.weepickle.v1.WeePickle.{macroFromTo, FromTo}
-import com.rallyhealth.weepickle.v1.implicits.dropDefault
+import play.api.libs.json.{Json, OWrites}
 
-@dropDefault
 final case class LeaseInfo(
   year: Option[Int] = None,
   month: Int,
@@ -11,7 +9,5 @@ final case class LeaseInfo(
 )
 
 object LeaseInfo {
-
-  implicit val leaseInfoFromTo: FromTo[LeaseInfo] = macroFromTo[LeaseInfo]
-
+  implicit val encoder: OWrites[LeaseInfo] = Json.writes[LeaseInfo]
 }
