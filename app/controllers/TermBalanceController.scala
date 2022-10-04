@@ -1,9 +1,9 @@
 package controllers
 
-import models.TermBalanceResponse
+import models.{Balance, LeaseInfo, TermBalanceResponse}
 import services.TermBalanceService
 import play.api.libs.json.Json
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, Result}
 
 import scala.concurrent.ExecutionContext
 
@@ -14,21 +14,23 @@ class TermBalanceController(
   ec: ExecutionContext
 ) extends AbstractController(cc) {
 
-  def getTermBalance(currentMiles: Int): Action[AnyContent] = Action.async {
-    val eventualBalance = termBalanceService.getBalance(currentMiles)
-    val eventualLeaseInfo = termBalanceService.getLeaseInfo
+  def getTermBalance(currentMiles: Int): Action[AnyContent] =
+    Action.async {
+      val eventualBalance = termBalanceService.getBalance(currentMiles)
+      val eventualLeaseInfo = termBalanceService.getLeaseInfo
+      for {
+        balance <- eventualBalance
+        leaseInfo <- eventualLeaseInfo
+      } yield createTermBalanceResponse(balance, leaseInfo)
+    }
 
-    for {
-      balance <- eventualBalance
-      leaseInfo <- eventualLeaseInfo
-    } yield Ok(
-      Json.toJson(
-        TermBalanceResponse(
-          balance,
-          leaseInfo
-        )
-      )
+  private def createTermBalanceResponse(
+    balance: Balance,
+    leaseInfo: LeaseInfo
+  ): Result = Ok(
+    Json.toJson(
+      TermBalanceResponse(balance, leaseInfo)
     )
-  }
+  )
 
 }
