@@ -21,15 +21,16 @@ class TermBalanceController(
       for {
         balance <- eventualBalance
         leaseInfo <- eventualLeaseInfo
-      } yield createTermBalanceResponse(balance, leaseInfo)
+      } yield createTermBalanceResponse(currentMiles, balance, leaseInfo)
     }
 
   private def createTermBalanceResponse(
+    currentMiles: Int,
     balance: Balance,
     leaseInfo: LeaseInfo
   ): Result = Ok(
     Json.toJson(
-      TermBalanceResponse(balance, leaseInfo)
+      TermBalanceResponse(currentMiles, balance, leaseInfo)
     )
   )
 
