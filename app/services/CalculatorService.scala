@@ -4,9 +4,14 @@ import scala.math.round
 
 trait CalculatorService {
 
-  def calculateMonthlyBalance(currentMiles: Int, currentMonthNumber: Int): Int
+  def calculateMonthlyBalance(
+    currentMiles: Int,
+    currentMonthNumber: Int
+  ): Int
 
-  def calculateTotalBalance(currentMiles: Int): Int
+  def calculateTotalBalance(
+    currentMiles: Int
+  ): Int
 
 }
 
@@ -14,7 +19,10 @@ class CalculatorServiceImpl extends CalculatorService {
 
   import CalculatorServiceImpl._
 
-  override def calculateMonthlyBalance(currentMiles: Int, currentMonthNumber: Int): Int =
+  override def calculateMonthlyBalance(
+    currentMiles: Int,
+    currentMonthNumber: Int
+  ): Int =
     round(defaultMonthlyBalance * currentMonthNumber - currentMiles)
 
   override def calculateTotalBalance(currentMiles: Int): Int =
@@ -32,8 +40,12 @@ object CalculatorServiceImpl {
 
   import scala.sys.env
 
-  private val maybeTermMilesBalance = env.getOrElse("TERM_MILES_BALANCE", "0").toFloatOption
-  private val maybeTermLengthMonths = env.getOrElse("TERM_LENGTH_MONTHS", "0").toFloatOption
+  private val maybeTermMilesBalance =
+    env.getOrElse("TERM_MILES_BALANCE", "0").toFloatOption
+
+  private val maybeTermLengthMonths =
+    env.getOrElse("TERM_LENGTH_MONTHS", "0").toFloatOption
+
   private val defaultMonthlyBalance =
     (for {
       termMilesBalance <- maybeTermMilesBalance
