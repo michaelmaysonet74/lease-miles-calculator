@@ -26,13 +26,11 @@ class CalculatorServiceImpl extends CalculatorService {
     round(defaultMonthlyBalance * currentMonthNumber - currentMiles)
 
   override def calculateTotalBalance(currentMiles: Int): Int =
-    maybeTermMilesBalance
-      .map { termMilesBalance =>
-        if (currentMiles < termMilesBalance)
-          termMilesBalance.toInt - currentMiles
-        else 0
-      }
-      .getOrElse(0)
+    maybeTermMilesBalance match {
+      case Some(termMilesBalance) if currentMiles < termMilesBalance =>
+        termMilesBalance.toInt - currentMiles
+      case _ => 0
+    }
 
 }
 
