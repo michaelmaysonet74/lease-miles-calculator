@@ -19,29 +19,35 @@ class TermBalanceServiceImpl(
   ec: ExecutionContext
 ) extends TermBalanceService {
 
-  override def getBalance(currentMiles: Int): Future[Balance] =
-    Future.successful(
-      Balance(
-        monthly = calculatorService.calculateMonthlyBalance(
-          currentMiles = currentMiles,
-          currentMonthNumber = dateService.getCurrentMonth
-        ),
-        total = calculatorService.calculateTotalBalance(
-          currentMiles
-        )
+  override def getBalance(currentMiles: Int): Future[Balance] = Future {
+    Balance(
+      monthly = calculatorService.calculateMonthlyBalance(
+        currentMiles = currentMiles,
+        currentMonthNumber = dateService.getCurrentMonth
+      ),
+      total = calculatorService.calculateTotalBalance(
+        currentMiles
       )
     )
+  }
 
-  override def getLeaseInfo: Future[LeaseInfo] =
-    Future.successful(
-      LeaseInfo(
-        year = dateService.getCurrentYear,
-        month = processCurrentMoth(dateService.getCurrentMonth),
-        today = dateService.getToday
-      )
+  override def getLeaseInfo: Future[LeaseInfo] = Future {
+    val maybeCurrentYear = dateService.getCurrentYear
+    val currentMonth = processCurrentMoth(dateService.getCurrentMonth, maybeCurrentYear)
+    LeaseInfo(
+      year = maybeCurrentYear,
+      month = currentMonth,
+      today = dateService.getToday
     )
+  }
 
-  private def processCurrentMoth(currentMonth: Int): Int =
-    if (currentMonth % 13 > 0) currentMonth else (currentMonth % 13) + 1
+  private def processCurrentMoth(
+    currentMonth: Int,
+    maybeCurrentYear: Option[Int]
+  ): Int =
+    if (maybeCurrentYear.exists(_ > 0))
+      currentMonth % 12
+    else
+      currentMonth
 
 }

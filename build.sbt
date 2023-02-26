@@ -1,21 +1,22 @@
+import Dependencies._
 import play.sbt.PlayImport.PlayKeys._
 import com.typesafe.sbt.packager.docker._
 
-val macwireVersion = "2.5.7"
+ThisBuild / scalaVersion := "2.13.8"
+ThisBuild / version := "1.1.0"
+ThisBuild / organization := "com.michaelmaysonet74"
+ThisBuild / organizationName := "michaelmaysonet74"
 
-lazy val server = (project in file("."))
+lazy val root = (project in file("."))
   .enablePlugins(PlayScala)
   .settings(
     name := """lease-miles-calculator""",
-    organization := "com.michaelmaysonet74",
-    version := "1.0.1",
-    scalaVersion := "2.13.8",
-    playDefaultPort := 8090,
     libraryDependencies ++= Seq(
-      "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
-      "com.softwaremill.macwire" %% "macros" % macwireVersion % Provided,
-      "com.softwaremill.macwire" %% "util" % macwireVersion
-    )
+      scalaTest % Test,
+      macwireMacros % Provided,
+      macwireUtil
+    ),
+    playDefaultPort := 8090
   )
   .settings(
     dockerExposedPorts ++= Seq(9000),
