@@ -8,7 +8,9 @@ import java.time.temporal.ChronoUnit
 
 trait DateService {
 
-  def getCurrentYear: Option[Int]
+  def getCurrentYear(
+    currentMonth: Int
+  ): Option[Int]
 
   def getCurrentMonth: Int
 
@@ -20,12 +22,12 @@ class DateServiceImpl extends DateService {
 
   import DateServiceImpl._
 
-  override def getCurrentYear: Option[Int] =
-    getLeaseStartDate
-      .flatMap { startDate =>
-        val currentYear = ChronoUnit.YEARS.between(startDate, getNow).toInt
-        if (currentYear > 0) Some(currentYear) else None
-      }
+  override def getCurrentYear(
+    currentMonth: Int
+  ): Option[Int] = {
+    val currentYear = currentMonth / 12
+    if (currentYear > 0) Some(currentYear) else None
+  }
 
   override def getCurrentMonth: Int =
     getLeaseStartDate

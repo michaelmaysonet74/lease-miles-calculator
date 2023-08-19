@@ -17,19 +17,20 @@ $ sbt server/run
 ### Example Request
 
 ```bash
-$ curl "http://localhost:8090/lease/term-balance?currentMiles=5667"
-# {
-#   "balance": {
-#     "monthly": 5172,
-#     "total": 24348
-#   },
-#   "lease": {
-#     "year": 1,
-#     "month": 1,
-#     "today": {
-#       "date": "9/28/2022",
-#       "time": "3:40:56 PM"
-#     }
-#   }
-# }
+$ curl "http://localhost:8090/lease/term-balance?currentMiles=10854"
+#  {
+#    "currentMiles": 10854,
+#    "balance": {
+#      "monthly": 9156,
+#      "total": 19161
+#    },
+#    "lease": {
+#      "year": 10,
+#      "month": 0,
+#      "today": {
+#        "date": "8/19/2023",
+#        "time": "12:37:42 PM"
+#      }
+#    }
+#  }
 ```

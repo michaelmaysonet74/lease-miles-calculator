@@ -3,7 +3,7 @@ import play.sbt.PlayImport.PlayKeys._
 import com.typesafe.sbt.packager.docker._
 
 ThisBuild / scalaVersion := "2.13.8"
-ThisBuild / version := "1.1.0"
+ThisBuild / version := "1.2.0"
 ThisBuild / organization := "com.michaelmaysonet74"
 ThisBuild / organizationName := "michaelmaysonet74"
 

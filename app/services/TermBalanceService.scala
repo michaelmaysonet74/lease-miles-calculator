@@ -32,11 +32,11 @@ class TermBalanceServiceImpl(
   }
 
   override def getLeaseInfo: Future[LeaseInfo] = Future {
-    val maybeCurrentYear = dateService.getCurrentYear
-    val currentMonth = processCurrentMoth(dateService.getCurrentMonth, maybeCurrentYear)
+    val currentMonth = dateService.getCurrentMonth
+    val maybeCurrentYear = dateService.getCurrentYear(currentMonth)
     LeaseInfo(
       year = maybeCurrentYear,
-      month = currentMonth,
+      month = processCurrentMoth(currentMonth, maybeCurrentYear),
       today = dateService.getToday
     )
   }
