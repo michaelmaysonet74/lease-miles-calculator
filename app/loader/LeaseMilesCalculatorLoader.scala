@@ -1,11 +1,11 @@
 package loader
 
-import modules.TermBalanceModule
 import com.softwaremill.macwire.wire
-import play.api.{Application, ApplicationLoader, BuiltInComponentsFromContext}
+import modules.TermBalanceModule
 import play.api.ApplicationLoader.Context
-import play.filters.HttpFiltersComponents
 import play.api.routing.Router
+import play.api.{Application, ApplicationLoader, BuiltInComponentsFromContext}
+import play.filters.HttpFiltersComponents
 import router.Routes
 
 import scala.concurrent.ExecutionContext
